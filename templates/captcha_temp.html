@@ -1,0 +1,15 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+ <form action="results" method="post">
+ 	{% csrf_token %}
+ 	<img src="{% static 'capt.png' %}">
+ 	<input type="text" name="cap">
+ 	<button type="submit" >Submit</button>
+ </form>
+</body>
+</html>

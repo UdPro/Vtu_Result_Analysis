@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link href="https://fonts.googleapis.com/css?family=PT+Sans+Narrow|Quicksand|Catamaran&display=swap" rel="stylesheet">
+	<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>-->
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+<body >
+	<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+		<div class = "container-fluid">
+			<a class="navbar-brand" id = "logo_text"  href="#">
+				<img src="{% static 'pic/logo.png' %}"  width="43" height="43" >
+			</a>
+			<a class="navbar-brand" id = "logo_text" href="/">Dept Of Computer Science</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+			</button>
+
+		  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+		    <ul class="navbar-nav ml-auto">
+		      <li class="nav-item active">
+		        <a class="nav-link" href="/">Home</a>
+		      </li>
+		      {% if user.is_authenticated %}
+			      <li class="nav-item">
+			        <a class="nav-link" href="fetch_result">Scrap Result</a>
+			      </li>
+		      {% endif %}
+		      <li class="nav-item">
+		        <a class="nav-link" href="analysis_result">Analysis</a>
+		      </li>
+		      <li class="nav-item">
+		        <a class="nav-link" href="about">About</a>
+		      </li>
+		      <!-- <li class="nav-item">
+		        <a class="nav-link" href="student">Student</a>
+		      </li> -->
+		      {% if user.is_authenticated %}
+				<li class="nav-item">
+			        <a class="nav-link" href="logout">Logout</a>
+			    </li>
+
+		      {% else %}
+			      <li class="nav-item">
+			        <a class="nav-link" href="login">Login</a>
+			      </li>
+
+		      {% endif %}
+		    </ul>
+		  </div>
+		</div>
+	</nav>
+
+{% if messages %}
+    {% for message in messages %}
+	  <div class="alert alert-{{ message.tags }} alert-dismissible fade show text-center" styel = "width : 10%;">
+		  <button type="button" class="close" data-dismiss="alert">
+			  <span aria-hidden="true">&times;</span>
+		  </button>
+		  {{ message }}
+	  </div>
+    {% endfor %}
+{% endif %}
+{% block content %}}
+
+
+{% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+	<div class="main">
+      <div class="heading" align="center">
+        <h5><b>Result Analysis</b></h5>
+        <hr>
+      </div>        
+      <form action="analysis_result" method="POST">
+      		{% csrf_token %}
+          <div class="container">            
+			<div class="form-group row">
+            	<div class="container">
+				  <div class="row justify-content-md-center">
+				  	<label class="col-sm-4 col-form-label">Year</label>
+				  	<div class="col-sm-5">
+				  		<div class="col-md-5">
+				          <select class="form-control" id="disabledSelect" name = "year">
+								{% for name in db_name %}
+						      		<option value="{{name}}">{{name}}</option>
+						     	{% endfor%}
+						  </select>
+					  	</div>
+				    </div>
+				  </div>
+				</div>
+			</div>
+			<div class="form-group row">
+            	<div class="container">
+				  <div class="row justify-content-md-center">
+				  	<label class="col-md-4 col-form-label">Sem</label>
+				  	<div class="col-md-5">
+				  		<div class="col-md-4">
+				          <select class="form-control" id="disabledSelect" name = "sem">
+						      <option>1</option>
+						      <option>2</option>
+						      <option>3</option>
+						      <option>4</option>
+						      <option>5</option>
+						      <option>6</option>
+						      <option>7</option>
+						      <option>8</option>
+						  </select>
+					  	</div>
+				    </div>
+				  </div>
+				</div>
+			</div>
+			<div class="form-group row">
+            	<div class="container">
+				  <div class="row justify-content-md-center">
+				  	<label class="col-md-4 col-form-label">Section</label>
+				  	<div class="col-md-5">
+				  		<div class="col-md-4">
+				          <select class="form-control" id="disabledSelect" name = "sec">
+						      <option>A</option>
+						      <option>B</option>
+						      <option>C</option>
+						  </select>
+					  	</div>
+				    </div>
+				  </div>
+				</div>
+			</div>
+            <div class="form-group" align="center">
+              <button type="submit" class="btn btn-primary cButton">Submit</button>
+            </div>
+          </div>
+      </form>
+    </div>        
+{% endblock %}
+		

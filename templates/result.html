@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="center"  id = "marks_head" align="center">
+	<h1>Marks Sheet</h1>
+	<hr>
+	<div class="table-responsive container" id = "marks_table">
+		{% autoescape off %}
+			{{result}}
+		{% endautoescape %}
+	</div>
+</div>
+<br>
+<div class="center" id = "passfail_head" align="center">
+	<h1>Subject Analysis</h1>
+	<hr>
+	<div class="table-responsive" id = 'passfail_table'>
+		{% autoescape off %}
+			{{sub_analysis}}
+		{% endautoescape %}
+	</div>
+</div>
+<br>
+<div class="center" id = "passfail_head" align="center">
+	<h1>Student Details</h1>
+	<hr>
+	<div class="table-responsive" id = 'passfail_table'>
+		{% autoescape off %}
+			{{students_div}}
+		{% endautoescape %}
+	</div>
+</div>
+<br>
+<div class="center" id = "passfail_head" align="center">
+	<h1>No. of students failed due to IA</h1>
+	<hr>
+	<div class="table-responsive" id = 'passfail_table'>
+		{% autoescape off %}
+			{{pass_due_to_ia}}
+		{% endautoescape %}
+	</div>
+</div>
+<br>
+<div class="center" id = "passfail_head" align="center">
+	<h1>Top Marks</h1>
+	<hr>
+	<div class="table-responsive" id = 'passfail_table'>
+		{% autoescape off %}
+			{{topper}}
+		{% endautoescape %}
+	</div>
+</div>
+<a href="{% static 'res.xlsx' %}" download>
+	<div class="form-group" align="center">
+	    <button type="submit" class="btn btn-primary cButton">Download</button>
+	</div>
+</a>
+{% endblock %}

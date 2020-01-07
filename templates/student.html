@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="form-row">
+	<div class="col-md-6 offset-md-3">
+		<form action="student" class = "shadow mt-5 rounded-lg text-center p-2" id = "stu_form"  method="post">
+			<h1>Student Details</h1>
+			<hr>
+			<div class="col-md py-3">
+				<div class="form-group row">
+					<label  class="col-2 offset-1 col-form-label">Usn</label>
+					<div class="col-5 offset-2">
+						<input type="text" class="form-control" id="inputEmail3" placeholder="Usn">
+					</div>
+				</div>
+			</div>
+			<div class="col-auto pb-3">
+				<button type="button" class="btn btn-primary">Search</button>
+			</div>
+		</form>
+	</div>
+</div>
+<!-- TODO: This is for server side, there is another version for browser defaults -->
+<!-- <div class = "row py-5">
+	<div class  = "col-md-6 offset-md-3">
+		<div class="jumbotron text-center shadow">
+			<h1>Student Details</h1>
+			<hr>
+			<div class="row py-3">
+				<div class="col">
+					<div class = "row">
+							<div class="col">Name</div>
+							<div class = "col"><input class="form-control" type="text" name="usn"></div>
+					</div>
+					<div class="col">Name</div>
+					<div class = "col-md"><input type="text" name="usn"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div> -->
+{% endblock %}
