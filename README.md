@@ -10,7 +10,7 @@ A web application which can bypass VTU result page without re-entering the USN a
 * Django 2.21
 ## Installation
 ```
-git clone https://github.com/Screetsec/TheFatRat.git
+git clone https://github.com/UdPro/vtu_result_analysis.git
 cd vtu_result
 ```
 ```
