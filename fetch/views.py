@@ -1,3 +1,24 @@
+'''
+Change Log :
+
+
+
+
+
+
+'''
+
+
+'''
+Change Required :
+
+arbit total marks
+refactor code 
+
+
+
+'''
+
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.urls import NoReverseMatch, reverse
@@ -183,6 +204,10 @@ def grade(x):
 
 
 def results(request):
+
+	# removing the Capthca image incase of cache file remain saved
+	# use CTRL + F5 to clear cache
+
 	#remove("G://vtu_result//static//capt.png")
 	captain = str(request.POST['cap'])
 	print(str(request.POST['sec']), str(request.POST['sem']) ,str(request.POST['year']))
@@ -203,10 +228,16 @@ def results(request):
 	        'token': csrf,
 	        'current_url': butUrl+'index.php'
 	        }
-	    resp = session.post(link1, headers=headers,data = payload, cookies = cookies,allow_redirects=False, verify = False)
+	    resp = session.post(link1, headers=headers ,data = payload, cookies = cookies ,allow_redirects=False, verify = False)
 	    page_soup = soup(resp.text, 'html.parser')
+
+		# Scraping the result table from page
+
 	    container = page_soup.findAll("div", {'class':'divTableRow'})
 	    fail = False
+
+		# If the Usn is invalid or no result for a Usn
+
 	    if len(container) <= 1 :
 	        continue
 	    print(payload['lns'])
@@ -217,7 +248,9 @@ def results(request):
 	    data[("Name",'')][Usn] = name[2:]
 	    for con in range(1,len(container)-1):
 	        marks = container[con].findAll('div', {'class':'divTableCell'})
+
 	        ### Per Subject Loop
+
 	        if marks[0].text == 'Subject Code':
 	                break
 	        print(marks[0].text ,marks[2].text+ ',' + marks[3].text + ',' +  marks[4].text + ',', marks[5].text )
@@ -246,10 +279,16 @@ def results(request):
 	            data[(marks[0].text,"Result")] = {}
 	            data[(marks[0].text,"Result")][Usn] = marks[5].text
 
+	# Casting result into Dataframe
+
 	t = pd.DataFrame(data)
+
+	# If row size of Dataframe is 0 ie no data is fetched
+
 	if t.shape[0] == 0:
 		messages.error(request,'Invalid Capthcha ! If problem presist try clearing Cache')
 		return redirect('fetch_result')
+
 	z = t.set_index('Name' , append= True).stack(0)
 	z.index.names = ['Usn','Name', 'Subject']
 	z['sec'] = str(request.POST['sec'])
@@ -315,6 +354,9 @@ def results(request):
 	t.apply(pass_fail, axis = 1)
 	del pass_ia['Total Students failed in ' + '0']
 	pass_due_to_ia = pd.DataFrame.from_dict(pass_ia, orient = 'index')
+
+	# Creating dic_class for student detail in a Class
+
 	dic_class = {
 		"STUDENT APPEARED" : 0,
 		"FIRST CLASS DISTIN":  0,
@@ -351,6 +393,9 @@ def results(request):
 			dic_class['ABSENT'] += 1
 
 	temp = t.apply(dic_pass, axis = 1)
+
+	# Changing the row 
+
 	students_div = pd.DataFrame.from_dict(dic_class, orient = 'index', columns =['Freq'])
 	students_div.loc["Overall Pass"] = int(students_div.loc['PASSED']*100/students_div.loc['STUDENT APPEARED'])
 
@@ -437,7 +482,6 @@ def analysis_result(request):
 		for sub in subject:
 		    sub_analysis.loc[sub ,'Avg Marks(EXT)'] = round(t[sub]['External'].mean(),2)
 		    sub_analysis.loc[sub ,'Avg Marks(INT)'] = round(t[sub]['Internal'].mean(),2)
-
 		topper = t[['Name','Grand Total']].reset_index().sort_values('Grand Total', ascending = False).head().stack()
 		topper.set_index('Usn',inplace = True)
 		topper = topper[['Name','Grand Total' ]]
@@ -518,6 +562,7 @@ def analysis_result(request):
 		conn.close()
 		return render(request,'analysis.html' , {'db_name' : db_name})
 
+
 def login(request):
 	if request.method == 'POST':
 		username = request.POST['username']
@@ -535,6 +580,7 @@ def login(request):
 
 	else:
 		return render(request, 'login.html')
+
 
 def logout(request):
 	auth.logout(request)
