@@ -185,7 +185,7 @@ def add(request):
 		cookies = requests.utils.cookiejar_from_dict(requests.utils.dict_from_cookiejar(session.cookies))
 		global csrf
 		csrf = re.findall('[a-zA-Z0-9+/]{142}==', resp.text)
-		f = captcha(butUrl,headers,cookies)
+		captcha(butUrl,headers,cookies)
 	except:
 		redirect(home)
 
@@ -249,7 +249,7 @@ def results(request):
 
 	for x in range( 1, sheet1.max_row+1):
 		l.append(sheet1.cell(column = 1 , row = x).value)
-	#print(l)
+	
 	data = {}
 	data[("Name", '')] = {}
 	flag = True
@@ -472,20 +472,6 @@ def connect_db():
 	)
 	return mydb
 
-def analysis(request):
-	mydb = connect_db()
-	conn = mydb.cursor()
-	conn.execute("SHOW DATABASES")
-	db_name = []
-
-	# Selecting only year from Database names
-
-	for name in conn:
-		if len(name[0]) == 4 and name[0].isnumeric() == True:
-			db_name += list(name)
-	conn.close()
-	return render(request,'analysis.html' , {'db_name' : db_name})
-
 
 # Fetching results from Database
 
@@ -651,7 +637,9 @@ def analyze(t, total_marks = 800, fail_ia_marks = 19):
 	return (t, sub_analysis, topper, students_div, pass_due_to_ia )
 
 
-def analysis_result(request):
+# Analysis Page 
+
+def analysis_page(request):
 	if request.method == 'POST':
 		database = str(request.POST['year'])
 		sem = str(request.POST['sem'])
@@ -666,13 +654,24 @@ def analysis_result(request):
 			# Redirect if Result is not found
 
 			messages.error(request,'No result found for ' + sem + ' semister')
-			return redirect ('analysis')
+			return redirect ('analysis_page')
+
+			# No. of row = 0, then no result found
+
 		if t.shape[0] == 0:
 			messages.error(request,'No result found for section ' +sec + ' of ' + sem + ' semister')
-			return redirect ('analysis')
+			return redirect ('analysis_page')
+
+		
+		# Re indexing the dataframe in result format
+
 		t = t.set_index(["Usn","Name",'Subject']).drop('sec',axis = 1).sort_index().unstack().stack(0).unstack()
 		t = t.reset_index().set_index("Usn")
 		t, sub_analysis, topper, students_div, pass_due_to_ia = analyze(t, total_marks, pass_ia_marks)
+		
+		
+		# Fill color in excel sheet 
+
 		colorFile_db(t,sub_analysis, topper , students_div, pass_due_to_ia)
 
 		return render(request,'result.html',{
@@ -714,6 +713,7 @@ def login(request):
 	else:
 		return render(request, 'login.html')
 
+# Logout 
 
 def logout(request):
 	auth.logout(request)
