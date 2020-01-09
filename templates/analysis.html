@@ -15,7 +15,7 @@
 				  	<label class="col-sm-4 col-form-label">Year</label>
 				  	<div class="col-sm-5">
 				  		<div class="col-md-5">
-				          <select class="form-control" id="disabledSelect" name = "year">
+				          <select class="form-control" name = "year">
 								{% for name in db_name %}
 						      		<option value="{{name}}">{{name}}</option>
 						     	{% endfor%}
@@ -31,7 +31,7 @@
 				  	<label class="col-md-4 col-form-label">Sem</label>
 				  	<div class="col-md-5">
 				  		<div class="col-md-4">
-				          <select class="form-control" id="disabledSelect" name = "sem">
+				          <select class="form-control"  name = "sem">
 						      <option>1</option>
 						      <option>2</option>
 						      <option>3</option>
@@ -52,11 +52,35 @@
 				  	<label class="col-md-4 col-form-label">Section</label>
 				  	<div class="col-md-5">
 				  		<div class="col-md-4">
-				          <select class="form-control" id="disabledSelect" name = "sec">
+				          <select class="form-control"  name = "sec">
 						      <option>A</option>
 						      <option>B</option>
 						      <option>C</option>
 						  </select>
+					  	</div>
+				    </div>
+				  </div>
+				</div>
+			</div>
+			<div class="form-group row">
+            	<div class="container">
+				  <div class="row justify-content-md-center">
+				  	<label class="col-md-4 col-form-label">Passing Marks IA</label>
+				  	<div class="col-md-5">
+				  		<div class="col-md-4">
+							<input type="text" class="form-control" name="ia_marks"  value="19">
+					  	</div>
+				    </div>
+				  </div>
+				</div>
+			</div>
+			<div class="form-group row">
+            	<div class="container">
+				  <div class="row justify-content-md-center">
+				  	<label class="col-md-4 col-form-label">Total Marks</label>
+				  	<div class="col-md-5">
+				  		<div class="col-md-4">
+							<input type="text" class="form-control" name="total_marks" value = 800 >
 					  	</div>
 				    </div>
 				  </div>

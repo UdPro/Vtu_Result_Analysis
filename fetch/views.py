@@ -489,7 +489,7 @@ def analysis(request):
 
 # Fetching results from Database
 
-def test(t, total_marks = 800, fail_ia_marks = 19):
+def analyze(t, total_marks = 800, fail_ia_marks = 19):
 	t.index.name = "Usn"
 
 	# Extracting the subjects from dataframe
@@ -644,7 +644,7 @@ def test(t, total_marks = 800, fail_ia_marks = 19):
 			dic_class['ABSENT'] += 1
 
 	# Using the row as Index for Dataframe
-
+	t.apply(dic_pass, axis = 1)
 	students_div = pd.DataFrame.from_dict(dic_class, orient = 'index', columns =['Freq'])
 	students_div.loc["Overall Pass"] = int(students_div.loc['PASSED']*100/students_div.loc['STUDENT APPEARED'])
 
@@ -656,7 +656,8 @@ def analysis_result(request):
 		database = str(request.POST['year'])
 		sem = str(request.POST['sem'])
 		sec = str(request.POST['sec'])
-		#total_marks = 800
+		pass_ia_marks = int(request.POST['ia_marks'])
+		total_marks = int(request.POST['total_marks'])
 		conn = create_engine('mysql+pymysql://' + user + ':' + passwd + '@' + 'localhost' + '/' + database , echo=False)
 		try:
 			t = pd.read_sql('SELECT * FROM' + ' `' + sem +'` ' + 'where sec = ' + '"' + sec + '"' , conn)
@@ -671,7 +672,7 @@ def analysis_result(request):
 			return redirect ('analysis')
 		t = t.set_index(["Usn","Name",'Subject']).drop('sec',axis = 1).sort_index().unstack().stack(0).unstack()
 		t = t.reset_index().set_index("Usn")
-		t, sub_analysis, topper, students_div, pass_due_to_ia = test(t)
+		t, sub_analysis, topper, students_div, pass_due_to_ia = analyze(t, total_marks, pass_ia_marks)
 		colorFile_db(t,sub_analysis, topper , students_div, pass_due_to_ia)
 
 		return render(request,'result.html',{
