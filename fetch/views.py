@@ -39,9 +39,13 @@ def templetInstall(nameOfDepen):
 
 # --------- Global Variables ------------------
 
-user = 'root'
+'''user = 'root'
 passwd = 'toor'
 host = 'localhost'
+'''
+host = 'abhinavornikkoo.mysql.pythonanywhere-services.com'
+user = 'abhinavornikkoo'
+passwd = 'GGna48@DaCZgMhY'
 
 try:
 	from bs4 import BeautifulSoup as soup
