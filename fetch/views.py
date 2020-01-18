@@ -39,9 +39,13 @@ def templetInstall(nameOfDepen):
 
 # --------- Global Variables ------------------
 
-'''user = 'root'
+'''
+# for local use
+user = 'root'
 passwd = 'toor'
-host = 'localhost''''
+host = 'localhost'
+
+'''
 host = 'abhinavornikkoo.mysql.pythonanywhere-services.com'
 user = 'abhinavornikkoo'
 passwd = 'QWae@6Nsnshr59H'
