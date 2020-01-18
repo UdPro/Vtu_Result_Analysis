@@ -46,6 +46,7 @@ passwd = 'toor'
 host = 'localhost'
 
 '''
+# for hosting
 host = 'abhinavornikkoo.mysql.pythonanywhere-services.com'
 user = 'abhinavornikkoo'
 passwd = 'QWae@6Nsnshr59H'
