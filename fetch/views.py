@@ -41,6 +41,7 @@ def templetInstall(nameOfDepen):
 
 user = 'root'
 passwd = 'toor'
+host = 'localhost'
 
 try:
 	from bs4 import BeautifulSoup as soup
@@ -341,7 +342,7 @@ def results(request):
 	database = str(request.POST['year'])
 	conn.execute("CREATE DATABASE IF NOT EXISTS `{0}` ".format(database))
 	conn.close()
-	conn = create_engine('mysql+pymysql://' + 'root' + ':' + 'toor' + '@' + 'localhost' + '/' + database , echo=False)
+	conn = create_engine('mysql+pymysql://' + user + ':' + passwd + '@' + host + '/' + database , echo=False)
 
 	# Saving the Dataframe in Database
 
@@ -466,9 +467,9 @@ def result_db(request):
 
 def connect_db():
 	mydb = mysql.connector.connect(
-		host='localhost',
-		user='root',
-		passwd='toor',
+		host = host,
+		user = user,
+		passwd = passwd,
 	)
 	return mydb
 
@@ -646,7 +647,7 @@ def analysis_page(request):
 		sec = str(request.POST['sec'])
 		pass_ia_marks = int(request.POST['ia_marks'])
 		total_marks = int(request.POST['total_marks'])
-		conn = create_engine('mysql+pymysql://' + user + ':' + passwd + '@' + 'localhost' + '/' + database , echo=False)
+		conn = create_engine('mysql+pymysql://' + user + ':' + passwd + '@' + host + '/' + database , echo=False)
 		try:
 			t = pd.read_sql('SELECT * FROM' + ' `' + sem +'` ' + 'where sec = ' + '"' + sec + '"' , conn)
 		except sqlalchemy.exc.ProgrammingError:
