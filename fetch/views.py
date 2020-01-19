@@ -35,7 +35,7 @@ def templetInstall(nameOfDepen):
     print('Installing '+ nameOfDepen )
     system('pip install ' + nameOfDepen)
 
-# bs4 for scraping the result from web
+
 
 # --------- Global Variables ------------------
 
@@ -50,6 +50,9 @@ host = 'localhost'
 host = 'abhinavornikkoo.mysql.pythonanywhere-services.com'
 user = 'abhinavornikkoo'
 passwd = 'QWae@6Nsnshr59H'
+
+
+# bs4 for scraping the result from web
 
 try:
 	from bs4 import BeautifulSoup as soup
@@ -261,7 +264,6 @@ def results(request):
 	
 	data = {}
 	data[("Name", '')] = {}
-	flag = True
 
 	# Sending request
 
@@ -277,7 +279,6 @@ def results(request):
 		# Scraping the result table from page
 
 		container = page_soup.findAll("div", {'class':'divTableRow'})
-		fail = False
 
 		# If the Usn is invalid or no result for a Usn
 
