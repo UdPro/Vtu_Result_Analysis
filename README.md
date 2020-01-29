@@ -17,3 +17,6 @@ cd vtu_result
 ```
 python manage.py runserver 0.0.0.0
 ```
+## Contributing
+Feel free to submit a pull request or an issue!
+
