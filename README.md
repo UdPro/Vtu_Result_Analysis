@@ -15,6 +15,10 @@ git clone https://github.com/UdPro/vtu_result_analysis.git
 cd vtu_result
 ```
 ```
+pip install -r requirements.txt
+python manage.py check
+python manage.py makemigrations
+python manage.py migrate
 python manage.py runserver 0.0.0.0
 ```
 ## Contributing
