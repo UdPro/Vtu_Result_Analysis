@@ -39,17 +39,17 @@ def templetInstall(nameOfDepen):
 
 # --------- Global Variables ------------------
 
-'''
+
 # for local use
 user = 'root'
 passwd = 'toor'
 host = 'localhost'
 
-'''
+
 # for host
-host = 'abhinavornikkoo.mysql.pythonanywhere-services.com'
-user = 'abhinavornikkoo'
-passwd = 'QWae@6Nsnshr59H'
+# host = 'abhinavornikkoo.mysql.pythonanywhere-services.com'
+# user = 'abhinavornikkoo'
+# passwd = 'QWae@6Nsnshr59H'
 
 
 # bs4 for scraping the result from web
@@ -101,7 +101,7 @@ from sqlalchemy import create_engine
 
 
 def captcha(butUrl,headers,cookies):
-    captcha_url = butUrl + 'captcha_new.php'
+    captcha_url = 'https://results.vtu.ac.in' + butUrl
     t = requests.get(captcha_url, headers=headers,cookies = cookies ,verify = False)
     with open("G://vtu_result//static//capt.png","wb") as f:
         f.write(t.content)
@@ -175,7 +175,7 @@ def add(request):
 
 		# rawUrl Stores the result age
 
-		rawUrl = 'https://results.vtu.ac.in/vitavicbcsjj19/index.php'
+		rawUrl = 'https://results.vtu.ac.in/_CBCS/index.php'
 		global butUrl
 		butUrl = getUrl(rawUrl)
 		print(butUrl)
@@ -196,8 +196,9 @@ def add(request):
 		print(requests)
 		cookies = requests.utils.cookiejar_from_dict(requests.utils.dict_from_cookiejar(session.cookies))
 		global csrf
-		csrf = re.findall('[a-zA-Z0-9+/]{142}==', resp.text)
-		captcha(butUrl,headers,cookies)
+		csrf = re.findall('[a-zA-Z0-9+/]{40}', resp.text)
+		for_cap = soup(resp.text, 'html.parser')
+		captcha(for_cap.findAll("img", {'alt':'CAPTCHA code'})[0]['src'],headers,cookies)
 	except:
 		redirect(home)
 
@@ -268,11 +269,12 @@ def results(request):
 	# Sending request
 
 	for usn in l:
+		# print(usn)
 		payload = {'lns': usn,
-			'captchacode':captain,
-			'token': csrf,
-			'current_url': butUrl+'index.php'
-			}
+        'captchacode':captain,
+        'Token': csrf,
+        'current_url': butUrl+'index.php'
+        }
 		resp = session.post(link1, headers=headers ,data = payload, cookies = cookies ,allow_redirects=False, verify = False)
 		page_soup = soup(resp.text, 'html.parser')
 
