@@ -28,6 +28,10 @@ from os import remove
 import numpy as np
 import mysql.connector
 import pandas as pd
+from tqdm import tqdm
+# Remove warning errors caused by HTTPS verfication(VTU server problem)
+import warnings
+warnings.filterwarnings('ignore')
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 
@@ -39,6 +43,12 @@ def templetInstall(nameOfDepen):
 
 # --------- Global Variables ------------------
 
+headers = None
+cookies = None
+csrf = None
+link1 = None
+butUrl = None
+session = None
 
 # for local use
 user = 'root'
@@ -178,7 +188,6 @@ def add(request):
 		rawUrl = 'https://results.vtu.ac.in/_CBCS/index.php'
 		global butUrl
 		butUrl = getUrl(rawUrl)
-		print(butUrl)
 		global link1
 		link1 = butUrl + 'resultpage.php'
 
@@ -268,7 +277,7 @@ def results(request):
 
 	# Sending request
 
-	for usn in l:
+	for usn in tqdm(l,desc = "Scraping",unit = 'data'):
 		# print(usn)
 		payload = {'lns': usn,
         'captchacode':captain,
@@ -285,7 +294,17 @@ def results(request):
 		# If the Usn is invalid or no result for a Usn
 
 		if len(container) <= 1 :
-			continue
+			# comment req
+			if 'not available' in page_soup.script.text:
+				print('Invalid Usn for', usn)
+				messages.error(request,'Invalid Capthcha ! If problem presist try clearing Cache')
+				return redirect('fetch_result')
+			if 'check website' in page_soup.script.text:
+				print('Got timeout sending Multiple requests')
+				while('check website' in page_soup.script.text):
+					resp = session.post(link1, headers=headers,data = payload, cookies = cookies,allow_redirects=True)
+					page_soup = soup(resp.text, 'html.parser')
+				container = page_soup.findAll("div", {'class':'divTableRow'})
 		print(payload['lns'])
 		nameConainter = page_soup.findAll('td', {'style':'padding-left:15px'})
 		name  = nameConainter[0].text
@@ -340,10 +359,6 @@ def results(request):
 
 	# If row size of Dataframe is 0 ie no data is fetched
 
-	if t.shape[0] == 0:
-		messages.error(request,'Invalid Capthcha ! If problem presist try clearing Cache')
-		return redirect('fetch_result')
-
 	z = t.set_index('Name' , append= True).stack(0)
 	z.index.names = ['Usn','Name', 'Subject']
 	z['sec'] = str(request.POST['sec'])
@@ -360,7 +375,9 @@ def results(request):
 	z.to_sql(name=sem, con=conn, if_exists = 'append' ,dtype={'Usn': VARCHAR(10),'Name': VARCHAR(50), 'Subject': VARCHAR(10)}) 
 	#
 	t.index.name = "Usn"
-	subject=list(t.columns.levels[0][:9])
+	subject=list(t.columns.levels[0][:])
+	if 'Name' in subject:
+		subject.remove('Name')
 	for sub in subject:
 		t.loc[:,(sub,['Internal','External','Total'])] = t.loc[:,(sub,['Internal','External','Total'])].astype('float64').astype('Int64')
 	t['Grand Total'] = t.iloc[:,1:].fillna(0).apply(Total,args = [subject],axis = 1)
@@ -453,7 +470,7 @@ def results(request):
 		if absent :
 			dic_class['ABSENT'] += 1
 
-	temp = t.apply(dic_pass, axis = 1)
+	t.apply(dic_pass, axis = 1)
 
 	# Changing the row 
 
@@ -491,6 +508,9 @@ def analyze(t, total_marks = 800, fail_ia_marks = 19):
 	t.index.name = "Usn"
 
 	# Extracting the subjects from dataframe
+
+	# Problem May arise if number of subjects are changed or differ
+	# Patch will be soon released
 
 	subject=list(t.columns.levels[0][:9])
 
