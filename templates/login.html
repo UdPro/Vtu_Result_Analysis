@@ -42,8 +42,8 @@
         {% endfor %}
       {% endif %}
       {% csrf_token %}
-      <img class="mb-4" src="{% static 'pic/logo.png' %}" alt="" width="72" height="72">
-      <h1 class="h3 mb-3 font-weight-normal">Result Analysis Portal</h1>
+      <img class="mb-4" src="{% static 'pic/logo.png' %}" alt="" width="160" height="100">
+      <h1 class="h3 mb-3 font-weight-normal">OTR Login</h1>
       <label for="inputEmail" class="sr-only">Email address</label>
       <input type="text" id="inputEmail" class="form-control" placeholder="User Name" name = "username" required autofocus>
       <label for="inputPassword" class="sr-only">Password</label>
@@ -51,7 +51,7 @@
       <div class="checkbox mb-3">
   </div>
   <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-  <p class="mt-5 mb-3 text-muted">ACDC 2018-2019</p>
+  <!-- <p class="mt-5 mb-3 text-muted">ACDC 2018-2019</p> -->
 </form>
 </body>
 </html>
