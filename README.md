@@ -22,9 +22,10 @@ python manage.py migrate
 python manage.py runserver 0.0.0.0
 ```
 ## Working
+<figure>
 <iframe width="560" height="315" src="https://www.youtube.com/embed/PgSoQ8Hmt_0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
 </iframe>
-
+</figure>
 ## Contributing
 Feel free to submit a pull request or an issue!
 
