@@ -21,8 +21,13 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver 0.0.0.0
 ```
+## Working
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/embed/PgSoQ8Hmt_0)
 ## Contributing
 Feel free to submit a pull request or an issue!
+
+
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/PgSoQ8Hmt_0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
