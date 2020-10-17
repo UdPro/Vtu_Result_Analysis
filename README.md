@@ -21,10 +21,9 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver 0.0.0.0
 ```
-## Working
-<figure class="video_container">
-  <iframe src="https://www.youtube.com/embed/enMumwvLAug" frameborder="0" allowfullscreen="true"> </iframe>
-</figure>
+## Video
+
+![](ezgif-6-a82f65cf3265.gif)
 
 ## Contributing
 Feel free to submit a pull request or an issue!
